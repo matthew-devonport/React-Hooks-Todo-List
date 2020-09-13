@@ -15,7 +15,9 @@ function App() {
   return (
     <div className="todoApp">
       <div className="todoList">
-
+        {todos.map((todo, index) => (
+          <Todo key={index} index={index} todo={todo} />
+        ))}
       </div>
     </div>
   )
