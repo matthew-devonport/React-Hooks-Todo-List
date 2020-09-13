@@ -39,8 +39,8 @@ function App() {
   ]);
 
   const addTodo = text => {
-    const NewTodos = [...todos, { text }];
-    setTodos(NewTodos);
+    const newTodos = [...todos, { text }];
+    setTodos(newTodos);
   }
 
   return (
