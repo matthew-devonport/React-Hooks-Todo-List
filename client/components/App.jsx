@@ -1,31 +1,75 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-import { getFruits } from '../apiClient'
-
-class App extends React.Component {
-  state = {
-    fruits: []
-  }
-
-  componentDidMount () {
-    getFruits()
-      .then(fruits => {
-        this.setState({fruits})
-      })
-  }
-
-  render () {
-    return (
-      <div className='app'>
-        <h1>Fullstack Boilerplate</h1>
-        <ul>
-          {this.state.fruits.map(fruit => (
-            <li key={fruit}>{fruit}</li>
-          ))}
-        </ul>
+function Todo({ todo, index, completeTodo, removeTodo }) {
+  return (
+    <div style={{textDecoration: todo.isCompleted ? 'line-through' : ''}} className="todo">
+      {todo.text}
+      <div className="todoComplete">
+        <button onClick={() => completeTodo(index)}>Complete</button>
+        <button onClick={() => removeTodo(index)} className="removeTodo">x</button>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default App
+function TodoForm({ addTodos }) {
+  const [value, setValue] = useState('');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if(!value) return;
+    addTodos(value);
+    setValue('');
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" className="input" value={value} onChange={e => setValue(e.target.value)} placeholder="Add item to list"/>
+    </form>
+  )
+}
+
+
+function App() {
+  const [todos, setTodos] = useState([
+    {
+      text: 'Item number one',
+      isCompleted: false
+    },
+    {
+      text: 'Item number two',
+      isCompleted: false
+    },
+  ]);
+
+  const addTodo = text => {
+    const newTodos = [...todos, { text }];
+    setTodos(newTodos);
+  }
+
+  const completeTodo = index => {
+    const newTodos = [...todos];
+    newTodos[index].isCompleted = true;
+    setTodos(newTodos);
+  };
+
+  const removeTodo = index => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  }
+
+  return (
+    <div className="todoApp">
+      <div className="todoList">
+        {todos.map((todo, index) => (
+          <Todo key={index} index={index} todo={todo} completeTodo={completeTodo} removeTodo={removeTodo} />
+        ))}
+        <TodoForm addTodo={addTodo} />
+      </div>
+    </div>
+  )
+
+}
+
+export default App;
