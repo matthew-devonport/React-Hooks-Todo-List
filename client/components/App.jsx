@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
 
+function Todo({ todo, index }) {
+  return (
+    <div className="todo">
+      {todo.text}
+    </div>
+  )
+}
+
+
 function App() {
   const [todos, setTodos] = useState([
     {
