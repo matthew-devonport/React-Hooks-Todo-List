@@ -6,19 +6,19 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
       {todo.text}
       <div className="todoComplete">
         <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>Remove</button>
+        <button onClick={() => removeTodo(index)} className="removeTodo">x</button>
       </div>
     </div>
   )
 }
 
-function TodoForm({ addTodo }) {
+function TodoForm({ addTodos }) {
   const [value, setValue] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
     if(!value) return;
-    addTodo(value);
+    addTodos(value);
     setValue('');
   }
 
